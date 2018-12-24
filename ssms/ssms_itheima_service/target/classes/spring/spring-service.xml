@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+    <!--声明事务器管理对象-->
+    <bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="transactionManager">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+ <!--   &lt;!&ndash;7.声明事务通知&ndash;&gt;
+    <tx:advice transaction-manager="transactionManager" id="myAdvice">
+        <tx:attributes>
+            <tx:method name="*" propagation="REQUIRED" read-only="false"/>
+            <tx:method name="find*" read-only="true" propagation="SUPPORTS"></tx:method>
+        </tx:attributes>
+    </tx:advice>
+    &lt;!&ndash;8.配置AOP&ndash;&gt;
+    <aop:config>
+        <aop:pointcut id="pt" expression="execution(* com.itheima.service.impl.*.*(..))"></aop:pointcut>
+         <aop:advisor advice-ref="myAdvice" pointcut-ref="pt"></aop:advisor>
+    </aop:config>-->
+     <!--如果使用注解需要在实现类上 配置 @Transactional(propagation="REQUIRED" read-only="false)
+     来判断是只读，还是可以修改，
+     -->
+    <tx:annotation-driven transaction-manager="transactionManager"></tx:annotation-driven>
+</beans>
