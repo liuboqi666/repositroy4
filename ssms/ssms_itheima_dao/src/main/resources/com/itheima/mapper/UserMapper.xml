@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.mapper.UserMapper">
+    <select id="findAll" resultType="user">
+        select * from user
+    </select>
+    <select id="findUser" parameterType="user" resultType="user" >
+        SELECT * from user  where username=#{username} and pwd=#{pwd}
+    </select>
+    <insert id="saveUser" parameterType="user">
+        INSERT INTO  user(username,pwd,age,sex,address,qq,email) values(#{username},#{pwd},#{age},#{sex},#{address},#{qq},#{email})
+    </insert>
+    <delete id="delete" parameterType="user">
+        DELETE  from user where username=#{username}
+    </delete>
+    <select id="findOne" resultType="user">
+        select * from user where username=#{username}
+    </select>
+    <update id="update" parameterType="user">
+        UPDATE user set  sex=#{sex},age=#{age},address=#{address},email=#{email} where username=#{username}
+    </update>
+
+    <select id="findCount" resultType="int" parameterType="pages">
+
+        SELECT count(*) from user
+        <where>
+            <if test="user!=null">
+                <if test="user.username!=null and user.username.length>0">
+                    username LIKE '%${user.username}%'
+                </if>
+                <if test="user.address!=null and user.address.length>0">
+                    or address LIKE '%${user.address}%'
+                </if>
+                <if test="user.email!=null and user.email.length>0">
+                    or email LIKE '%${user.email}%'
+                </if>
+            </if>
+        </where>
+    </select>
+    <select id="findList" resultType="user" parameterType="pages">
+        select * from user
+
+        <where>
+            <if test="user!=null">
+                <if test="user.username!=null and user.username.length>0">
+                    username LIKE '%${user.username}%'
+                </if>
+                <if test="user.address!=null and user.address.length>0">
+                    or address LIKE '%${user.address}%'
+                </if>
+                <if test="user.email!=null and user.email.length>0">
+                    or email LIKE '%${user.email}%'
+                </if>
+            </if>
+        </where>
+            ORDER BY id DESC  limit #{startNum},#{pageCounts}
+    </select>
+    <delete id="delSelect" parameterType="int">
+         DELETE  from user where id=#{i}
+    </delete>
+</mapper>
