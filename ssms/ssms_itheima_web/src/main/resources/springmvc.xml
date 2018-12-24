@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+    <!--开启注解扫描-->
+    <context:component-scan base-package="com.itheima"></context:component-scan>
+    <!--释放所有的静态资源-->
+    <mvc:default-servlet-handler></mvc:default-servlet-handler>
+    <!--开启mvc的注解驱动
+       包括处理器映射器 和处理器配置器-->
+    <mvc:annotation-driven></mvc:annotation-driven>
+
+    <!--配置视图解析器-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/pages/"></property>
+        <property name="suffix" value=".jsp"></property>
+    </bean>
+    <!--配置拦截器-->
+    <mvc:interceptors>
+       <mvc:interceptor>
+           <!--需要拦截的方法-->
+           <mvc:mapping path="/**"></mvc:mapping>
+           <!--不需要被拦截的方法-->
+            <mvc:exclude-mapping path="/user/login"></mvc:exclude-mapping>
+
+           <bean class="com.itheima.utils.MyInterceptorl"></bean>
+       </mvc:interceptor>
+    </mvc:interceptors>
+</beans>
